@@ -1,0 +1,5 @@
+[centos]
+server01  ansible_host=192.168.56.101
+[ubuntu]
+server02
+server03  ansible_host=192.168.56.20
