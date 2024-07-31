@@ -1,0 +1,43 @@
+---
+- name: Instalar y configurar un webserver
+  hosts: centos
+  become: yes
+  user: sysadmin
+
+  tasks:
+
+  - name: Instalar apache
+    ansible.builtin.dnf:
+      name: httpd
+      state: present
+
+  - name: Configurar virtualhost
+    ansible.builtin.copy: 
+      src: ./files/virtualhost.conf
+      dest: /etc/httpd/conf.d
+    notify: Reiniciar apache
+
+  - name: Crear directorio document root
+    ansible.builtin.file:
+      path: /var/www/ejemplo/html
+      state: directory
+      mode: '0755'
+      owner: apache
+      group: apache
+      
+  - name: Copiar pagina del sitio
+    ansible.builtin.template:
+      src: ./templates/index.j2
+      dest: /var/www/ejemplo/html/
+      owner: apache
+      group: apache
+      mode: '0644'
+
+  handlers:
+
+  - name: Reiniciar apache
+    ansible.builtin.systemd_service:
+      name: httpd
+      state: restarted
+
+  
