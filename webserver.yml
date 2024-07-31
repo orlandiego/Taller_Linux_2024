@@ -35,7 +35,7 @@
 
   - name: Permito conexiones al puerto 80
     ansible.posix.firewalld:
-      service: {{ item }}
+      service: "{{ item }}"
       state: enabled
       inmediate: true
       permanent: true
