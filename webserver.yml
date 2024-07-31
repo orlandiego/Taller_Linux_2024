@@ -1,7 +1,7 @@
 ---
 - name: Instalar y configurar un webserver
   hosts: centos
-  become: yes
+  become: true
   user: sysadmin
 
   tasks:
