@@ -28,7 +28,7 @@
   - name: Copiar pagina del sitio
     ansible.builtin.template:
       src: ./templates/index.j2
-      dest: /var/www/ejemplo/html/
+      dest: /var/www/ejemplo/html/index.html
       owner: apache
       group: apache
       mode: '0644'
