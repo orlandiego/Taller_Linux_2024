@@ -31,3 +31,18 @@
       state: started
       enabled: true
   
+## Configuracion de base de datos
+  - name: MariaDB instalado
+    ansible.builyin.apt:
+      name: mariadb-server
+      state: present
+      update-cache: true
+      
+  - name: Servidor Mariadb levantado
+    ansible.builtin.systemd_service:
+      name: mariadb
+      state: started
+      enabled: true
+
+##       
+      
