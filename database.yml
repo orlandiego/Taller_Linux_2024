@@ -63,5 +63,4 @@
       state: present
     delegate_to: localhost
     connection: local
-  
       
