@@ -2,59 +2,59 @@
 - name: Configuro servidor base de datos en ubuntu
   hosts: database
   become: true
-  user: sadmin
+  user: sysadmin
 
-  task:
-  
+  tasks:
+
   - name: UFW instalado
     ansible.builtin.apt:
       name: ufw
       state: present
 
-  - name: Permitir puerto 22 en UFW
+  - name: Permitir puerto 22 en ufw
     community.general.ufw:
       rule: allow
       name: OpenSSH
 
-  - name: Defino politicas de trafico entrante
+  - name: Defino politicas de tráfico entrante
     community.general.ufw:
       policy: allow
+      direction: outgoing
+      state: enabled
+
+  - name: Defino politicas de tráfico entrante
+    community.general.ufw:
+      policy: deny
       direction: incoming
       state: enabled
 
-  - name: Defino politicas de trafico saliente
-    community.general.ufw:
-      policy: deny
-      direction: outgoing
-      state: enabled
-  
-  - name: Servicio UFW levantado y activo
+  - name: servicio UFW levantado y activo
     ansible.builtin.systemd_service:
       name: ufw
       state: started
       enabled: true
-  
-## Instalacion de base de datos
+
+## Instalación de base de datos
   - name: MariaDB instalado
-    ansible.builyin.apt:
+    ansible.builtin.apt:
       name: mariadb-server
       state: present
       update-cache: true
-      
+
   - name: Servidor Mariadb levantado
-    ansible.builtin.systemd_service:
+    ansible.builtin.systemd_service: 
       name: mariadb
       state: started
       enabled: true
-      
-  - name: Habilitamos en ufw la conexion a mariadb
+
+  - name: Habilitamos en ufw la conexión a mariadb
     community.general.ufw:
       rule: allow
       port: '3306'
       protocol: tcp
       direction: in
-      
-##  Configuracion de base de datos
+
+##  Configuracion de la base de datos
 
   - name: Creo la base de datos todo
     community.mysql.mysql_db:
@@ -63,7 +63,7 @@
       login_user: root
       login_password: dbadmin
       name: todo
-      state: present
+      state: import
+      target: ./files/todo.sql
     delegate_to: localhost
     connection: local
-      
