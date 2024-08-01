@@ -12,7 +12,18 @@
       state: present
 
   - name: Permitir puerto 22 en UFW
-    ansible
+    community.general.ufw:
+      rule: allow
+      name: OpenSSH
+
+  - name: Defino politicas de trafico entrante
+    community.general.ufw:
+      policy: "{{ item.value }}"
+      direction: "{{ item.key }}"
+      state: enabled
+    loop:
+      - in: deny
+      - out: allow
 
   - name: Servicio UFW levantado y activo
     ansible.builtin.systemd_service:
