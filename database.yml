@@ -2,7 +2,7 @@
 - name: Configuro servidor base de datos en ubuntu
   hosts: database
   become: true
-  user: sysadmin
+  user: sadmin
 
   tasks:
 
