@@ -3,7 +3,7 @@ server01
 
 [ubuntu]
 server02
-server03    ansible_host=192.168.56.20
+server03
 
 [database]
 server02

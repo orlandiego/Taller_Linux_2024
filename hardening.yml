@@ -22,5 +22,5 @@
 
   - name: Reinicio servidor ssh
     ansible.builtin.systemd.service:
-      name: "{{ ssh-service }}"
+      name: "{{ ssh_service }}"
       stats: restarted

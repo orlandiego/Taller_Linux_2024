@@ -1,2 +1,2 @@
 ---
-ssh-service: sshd
+ssh_service: sshd
