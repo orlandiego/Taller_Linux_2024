@@ -18,13 +18,16 @@
 
   - name: Defino politicas de trafico entrante
     community.general.ufw:
-      policy: "{{ item.value }}"
-      direction: "{{ item.key }}"
+      policy: allow
+      direction: incoming
       state: enabled
-    loop:
-      - in: deny
-      - out: allow
 
+  - name: Defino politicas de trafico saliente
+    community.general.ufw:
+      policy: deny
+      direction: outgoing
+      state: enabled
+  
   - name: Servicio UFW levantado y activo
     ansible.builtin.systemd_service:
       name: ufw
