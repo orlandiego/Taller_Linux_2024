@@ -1,0 +1,22 @@
+---
+- name: Configuro servidor base de datos en ubuntu
+  hosts: database
+  become: true
+  user: sadmin
+
+  task:
+  
+  - name: UFW instalado
+    ansible.builtin.apt:
+      name: ufw
+      state: present
+
+  - name: Permitir puerto 22 en UFW
+    ansible
+
+  - name: Servicio UFW levantado y activo
+    ansible.builtin.systemd_service:
+      name: ufw
+      state: started
+      enabled: true
+  
