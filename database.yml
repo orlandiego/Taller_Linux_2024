@@ -41,6 +41,13 @@
       state: present
       update-cache: true
 
+  - name: Cambiar la configuracion para escuchar en todas las interfaces
+    ansible.builtin.lineinfile:
+      path: /etc/mysql/mariadb.conf.d/50-server.cnf
+      regexp: '^bind-address'
+      line: 'bind-address         = 0.0.0.0'
+    notify: Restart mariadb
+
   - name: Servidor Mariadb levantado
     ansible.builtin.systemd_service: 
       name: mariadb
@@ -54,13 +61,8 @@
       protocol: tcp
       direction: in
 
-  ## Copiar todo.sql al servidor de la base de datos
-  - name: Copiar todo.sql al servidor de la base de datos
-    ansible.builtin.copy:
-      src: ./files/todo.sql
-      dest: /tmp/todo.sql
-
 ##  Configuracion de la base de datos
+
   - name: Creo la base de datos todo
     community.mysql.mysql_db:
       check_implicit_admin: true
@@ -73,9 +75,9 @@
     delegate_to: localhost
     connection: local
 
-  handlers:
+handlers:
 
-    - name: Reiniciar MariaDB
-      ansible.builtin.systemd:
-        name: mariadb
-        state: restarted
+- name: Restart mariadb
+    ansible.builtin.systemd_service: 
+      name: mariadb
+      state: restarted
