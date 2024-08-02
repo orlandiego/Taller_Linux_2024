@@ -61,23 +61,23 @@
       protocol: tcp
       direction: in
 
-##  Configuracion de la base de datos
+##  Configuracion de la base de datos   // no me funciono, por lo que cree otro playbook para ejecutar todo desde el servidor de base de datos.
 
-  - name: Creo la base de datos todo
-    community.mysql.mysql_db:
-      check_implicit_admin: true
-      login_host: "{{ hostvars[inventory_hostname].ansible_host }}"
-      login_user: root
-      login_password: dbadmin
-      name: todo
-      state: import
-      target: ./files/todo.sql
-    delegate_to: localhost
-    connection: local
+#  - name: Creo la base de datos todo
+#    community.mysql.mysql_db:
+#      check_implicit_admin: true
+#      login_host: "{{ hostvars[inventory_hostname].ansible_host }}"
+#      login_user: root
+#      login_password: dbadmin
+#      name: todo
+#      state: import
+#      target: ./files/todo.sql
+#    delegate_to: localhost
+#    connection: local
 
-handlers:
+  handlers:
 
-- name: Restart mariadb
+  - name: Restart mariadb
     ansible.builtin.systemd_service: 
       name: mariadb
       state: restarted
