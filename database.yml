@@ -54,8 +54,13 @@
       protocol: tcp
       direction: in
 
-##  Configuracion de la base de datos
+  ## Copiar todo.sql al servidor de la base de datos
+  - name: Copiar todo.sql al servidor de la base de datos
+    ansible.builtin.copy:
+      src: ./files/todo.sql
+      dest: /tmp/todo.sql
 
+##  Configuracion de la base de datos
   - name: Creo la base de datos todo
     community.mysql.mysql_db:
       check_implicit_admin: true
@@ -67,3 +72,10 @@
       target: ./files/todo.sql
     delegate_to: localhost
     connection: local
+
+  handlers:
+
+    - name: Reiniciar MariaDB
+      ansible.builtin.systemd:
+        name: mariadb
+        state: restarted
