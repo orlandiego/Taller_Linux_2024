@@ -2,7 +2,10 @@
 - name: Configurar base de datos MySQL
   hosts: database
   become: true
+  user: sysadmin
+
   tasks:
+
     - name: Crear el usuario root y otorgar permisos
       ansible.builtin.shell: |
         mysql -u root -p'root_password' -e "CREATE USER 'root'@'%' IDENTIFIED BY 'new_password';"
@@ -28,7 +31,7 @@
 
     - name: Importar archivo SQL
       ansible.builtin.shell: |
-        mysql -u root -p'new_password' todo < /tmp/todo.sql
+        mysql -u root -p'new_password' -e todo < /tmp/todo.sql
       args:
         executable: /bin/bash
       environment:
@@ -47,7 +50,7 @@
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: new_password
+        MYSQL_PWD: dbadmin
 
     - name: Consultar y mostrar los usuarios creados
       ansible.builtin.shell: |
@@ -58,7 +61,7 @@
       args:
         executable: /bin/bash
       environment:
-        MYSQL_PWD: new_password
+        MYSQL_PWD: dbadmin
       register: query_result
 
     - name: Mostrar resultado de la consulta
