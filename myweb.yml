@@ -14,18 +14,18 @@
 
     ## Primero instalo JAVA
     - name: Instalo el JAVA SDK
-      yum:
+      ansible.builtin.yum_repository:
         name: java-1.8.0-openjdk
         state: present
 
       ## Segundo bajo y extraigo el Tomcat
     - name: Bajo el Tomcat y extrae en el directorio /opt/.
-      yum:
+      ansible.builtin.yum_repository:
         name: tomcat
         state: present
 
     - name: Iniciar y habilitar Tomcat service
-      systemd:
+      ansible.builtin.systemd_service:
         name: tomcat
         state: started
         enabled: yes
